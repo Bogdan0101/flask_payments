@@ -1,5 +1,8 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from app.settings import settings
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 database_url = (
     f"postgresql+asyncpg://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}"
