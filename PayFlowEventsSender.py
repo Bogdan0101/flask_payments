@@ -44,12 +44,18 @@ def deliver(url: str, secret: str, event: dict) -> tuple[int, str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("events_file")
     parser.add_argument("--url", default="http://localhost:8000/webhooks")
     parser.add_argument("--secret", default="whsec_test_123")
-    parser.add_argument("--retries", type=int, default=3, help="extra attempts after a failed delivery")
-    parser.add_argument("--retry-delay", type=float, default=1.0, help="seconds between attempts")
+    parser.add_argument(
+        "--retries", type=int, default=3, help="extra attempts after a failed delivery"
+    )
+    parser.add_argument(
+        "--retry-delay", type=float, default=1.0, help="seconds between attempts"
+    )
     args = parser.parse_args()
 
     with open(args.events_file, encoding="utf-8") as f:
@@ -59,7 +65,9 @@ def main() -> int:
     for event in events:
         for attempt in range(1, args.retries + 2):
             status, body = deliver(args.url, args.secret, event)
-            print(f"{event['id']:<12} {event['type']:<24} attempt {attempt}: {status} {body[:200]}")
+            print(
+                f"{event['id']:<12} {event['type']:<24} attempt {attempt}: {status} {body[:200]}"
+            )
             if 200 <= status < 300:
                 break
             time.sleep(args.retry_delay)

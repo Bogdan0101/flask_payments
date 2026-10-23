@@ -17,7 +17,9 @@ class ProcessedEventModel(db.Model):
 
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
     type: Mapped[str] = mapped_column(String(64), nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
 
 
 class AccountModel(db.Model):
@@ -25,7 +27,9 @@ class AccountModel(db.Model):
 
     account_id: Mapped[str] = mapped_column(String(64), primary_key=True)
     currency: Mapped[str] = mapped_column(String(3), nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=datetime.now()
+    )
 
 
 class AuthorizationModel(db.Model):
@@ -50,7 +54,9 @@ class AuthorizationModel(db.Model):
         Numeric(12, 2), nullable=False, default=Decimal("0.00")
     )
 
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
 
 
 class FundingModel(db.Model):
